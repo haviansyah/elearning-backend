@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassroomController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,20 @@ Route::group([
 ], function ($router) {
     Route::resource('user', \App\Http\Controllers\UserController::class);
 });
+
+
+Route::group(['prefix' => 'classroom'], function () {
+    Route::get("/",[ClassroomController::class,"getAll"]);
+    Route::post('/', [ClassroomController::class,"create"]);
+
+    Route::post("/join",[ClassroomController::class,"join"]);
+
+    Route::post("/{id}",[ClassroomController::class,"update"]);
+    Route::get("/{id}",[ClassroomController::class,"getOnly"]);
+    Route::delete("/{id}",[ClassroomController::class,"delete"]);
+
+});
+
 
 Route::group([
     'middleware' => 'api',

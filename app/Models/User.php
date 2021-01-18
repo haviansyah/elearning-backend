@@ -72,4 +72,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(\App\Models\Role::class);
     }
 
+    public function taught_classroom(){
+        return $this->hasMany(\App\Models\Classroom::class,"teacher_user_id");
+    }
+
+    public function classroom(){
+        return $this->belongsToMany(\App\Models\Classroom::class);
+    }
+
+
 }
