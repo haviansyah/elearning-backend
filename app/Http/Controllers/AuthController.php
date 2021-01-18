@@ -63,6 +63,7 @@ class AuthController extends Controller
             return response()->json(['token_absent'], 400);
         }
         return response()->json([
+            "id" => $user->id,
             "name" => $user->name,
             "email" => $user->email,
             "role" => $user->role->name
