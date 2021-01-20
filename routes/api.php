@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,7 @@ Route::group([
 });
 
 
-Route::group(['prefix' => 'classroom'], function () {
+Route::group(['prefix' => 'classroom',"middleware"=>"jwtAuth"], function () {
     Route::get("/",[ClassroomController::class,"getAll"]);
     Route::post('/', [ClassroomController::class,"create"]);
 
@@ -39,6 +40,10 @@ Route::group(['prefix' => 'classroom'], function () {
 
 });
 
+Route::group(['prefix' => 'quiz',"middleware" => "jwtAuth"], function () {
+    Route::post('/', [Quiz::class,"store"]);
+});
+
 
 Route::group([
     'middleware' => 'api',
@@ -46,8 +51,11 @@ Route::group([
 ], function ($router) {
 
     Route::post('login', [AuthController::class,"login"])->name("login");
-    Route::post('logout', [AuthController::class,"logout"]);
-    Route::post('refresh', [AuthController::class,"refresh"]);
-    Route::get('me', [AuthController::class,"me"]);
+
+    Route::group(['middleware' => ['jwtAuth']], function () {
+        Route::post('logout', [AuthController::class,"logout"]);
+        Route::post('refresh', [AuthController::class,"refresh"]);
+        Route::get('me', [AuthController::class,"me"]);
+    });
 
 });
