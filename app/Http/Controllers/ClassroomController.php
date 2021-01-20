@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Classroom as ResourcesClassroom;
 use App\Models\Classroom;
 use Exception;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ class ClassroomController extends Controller
         }else{
             $classroom = $user->classroom;
         }
-        return response($classroom,200);
+        return response(ResourcesClassroom::collection($classroom),200);
     }
 
 
