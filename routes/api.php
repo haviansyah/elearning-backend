@@ -42,6 +42,17 @@ Route::group(['prefix' => 'classroom',"middleware"=>"jwtAuth"], function () {
 
 Route::group(['prefix' => 'quiz',"middleware" => "jwtAuth"], function () {
     Route::post('/', [Quiz::class,"store"]);
+    Route::get('/', [Quiz::class,"index"]);
+    Route::get('/{id}', [Quiz::class,"getOne"]);
+
+    Route::post('/{id}/attempt',[Quiz::class,"post_attempt"]);
+    Route::get('/{id}/attempt',[Quiz::class,"get_attempt"]);
+
+    Route::get('/attempt/{id}',[Quiz::class,"get_detail_attempt"]);
+
+    Route::get('/calculate/{id}',[Quiz::class,"calculate_poin_multiple_choice"]);
+    Route::get('/calculate2/{id}',[Quiz::class,"calculate_poin_match_pair"]);
+    
 });
 
 

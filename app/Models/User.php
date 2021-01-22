@@ -80,5 +80,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(\App\Models\Classroom::class);
     }
 
+    public function created_quiz(){
+        return $this->hasMany(\App\Models\Quiz::class,"created_by_user_id");
+    }
 
+    public function quiz_attempt(){
+        return $this->hasMany(\App\Models\QuizAttempt::class);
+    }
 }
