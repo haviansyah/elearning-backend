@@ -46,7 +46,7 @@ class ClassroomController extends Controller
     }
 
     public function getOnly($id){
-        $classroom = Classroom::findOrFail($id);
+        $classroom = Classroom::with(["lessons"])->findOrFail($id);
         return response($classroom,200);
     }
 

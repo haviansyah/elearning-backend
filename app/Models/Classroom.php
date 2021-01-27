@@ -18,4 +18,8 @@ class Classroom extends Model
     public function students(){
         return $this->belongsToMany(\App\Models\User::class);
     }
+
+    public function lessons(){
+        return $this->hasMany(\App\Models\Lesson::class);
+    }
 }

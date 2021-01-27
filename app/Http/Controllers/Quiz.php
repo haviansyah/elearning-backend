@@ -32,7 +32,12 @@ class Quiz extends Controller
         try{
 
             $creating_user = JWTAuth::parseToken()->authenticate(); 
+            $role = $creating_user->role_id;
 
+            if($role == RoleConst::STUDENT){
+                return response(["status"=>"unauthorized"],403);
+            }
+        
             $name = $request->name;
             $description = $request->description;
 

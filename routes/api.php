@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\Quiz;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +58,26 @@ Route::group(['prefix' => 'quiz',"middleware" => "jwtAuth"], function () {
     
 });
 
+Route::group(['prefix' => 'lesson',"middleware" => "jwtAuth"], function () {
+    Route::post('/', [LessonController::class,"store"]);
+    Route::get('/{id}', [LessonController::class,"show"]);
+    Route::post('/{id}', [LessonController::class,"update"]);
+});
+
+
+Route::group(['prefix' => 'task',"middleware" => "jwtAuth"], function () {
+    Route::post("/",[TaskController::class,"store"]);
+    Route::get("/",[TaskController::class,"index"]);
+    Route::get("/{id}",[TaskController::class,"get"]);
+    Route::post("/{id}",[TaskController::class,"update"]);
+
+    Route::post("/{id}/attempt",[TaskController::class,"new_attempt"]);
+    Route::get("/{id}/attempt",[TaskController::class,"show_attempt"]);
+    Route::get("/attempt/{id}",[TaskController::class,"detail_attempt"]);
+});
+
+
+
 
 Route::group([
     'middleware' => 'api',
@@ -69,4 +92,4 @@ Route::group([
         Route::get('me', [AuthController::class,"me"]);
     });
 
-});
+}); 

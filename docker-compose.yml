@@ -41,6 +41,21 @@ services:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sail
+    
+    pma:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        ports:
+            - '8069:80'
+        networks:
+            sail:
+                aliases:
+                - phpmyadmin
+                
     redis:
         image: 'redis:alpine'
         ports:
