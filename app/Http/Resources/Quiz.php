@@ -22,7 +22,7 @@ class Quiz extends JsonResource
             "duration" => $this->duration,
             "random_question" => (bool) $this->random_question,
             "question_type" => $this->question_type,
-            "questions" => Question::collection($this->questions) ?? null
+            "questions" => Question::collection(((bool) $this->random_question) ? $this->questions->shuffle() : $this->questions ) ?? null
         ];
     }
 }

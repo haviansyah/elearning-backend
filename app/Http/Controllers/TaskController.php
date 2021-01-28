@@ -22,14 +22,10 @@ class TaskController extends Controller
 
             $name = $request->name;
             $description = $request->description;
-            $due_date = $request->due_date;
-            $duration = $request->duration;
 
             $new_task = new Task([
                 "name" => $name,
                 "description" => $description,
-                "due_date" => $due_date,
-                "duration" => $duration,
                 "created_by_user_id" => $creating_user->id
             ]);
 

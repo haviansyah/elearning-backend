@@ -41,9 +41,6 @@ class Quiz extends Controller
             $name = $request->name;
             $description = $request->description;
 
-            $due_date = $request->due_date;
-            $duration = $request->duration;
-
             $random_question = $request->is_random ? 1 : 0;
 
             $question_type = $request->question_type;
@@ -55,8 +52,6 @@ class Quiz extends Controller
             $new_quiz = new ModelsQuiz([
                 "name" => $name,
                 "description" => $description,
-                "due_date" => $due_date,
-                "duration" => $duration,
                 "random_question" => $random_question,
                 "question_type" => $question_type,
                 "created_by_user_id" => $creating_user->id

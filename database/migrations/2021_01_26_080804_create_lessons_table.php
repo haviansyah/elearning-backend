@@ -19,6 +19,8 @@ class CreateLessonsTable extends Migration
             $table->foreignIdFor(\App\Models\Classroom::class);
             $table->foreignIdFor(\App\Models\Quiz::class);
             $table->foreignIdFor(\App\Models\Task::class);
+            $table->dateTime("due_date");
+            $table->integer("duration");
             $table->string("materi_file_name")->nullable();
             $table->string("video_url")->nullable();
             $table->timestamps();

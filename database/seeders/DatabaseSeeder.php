@@ -4,11 +4,15 @@ namespace Database\Seeders;
 
 use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
+use App\Models\Question;
+use App\Models\QuestionOption;
+use App\Models\Quiz;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use QuestionTypeConst;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,12 +30,12 @@ class DatabaseSeeder extends Seeder
 
         $guru = new Role([
             "id" => 1,
-            "name" => "guru"
+            "name" => "TEACHER"
         ]);
         $guru->save();
         $murid = new Role([
             "id" => 2,
-            "name" => "murid"
+            "name" => "STUDENT"
         ]);
         $murid->save();
 
@@ -74,5 +78,45 @@ class DatabaseSeeder extends Seeder
         // Attacth Student to Class
         $kelas_4ka21->students()->attach($murid_nanang);
         $kelas_4ka21->students()->attach($murid_ijan);
+
+        $quiz_mpc = new Quiz([
+            "name" => "Quiz 1",
+            "description" => "testing quiz MPC",
+            "random_question" => 1,
+            "question_type" => QuestionTypeConst::MULTIPLE_CHOICE,
+            "created_by_user_id" => $guru_haviansyah->id
+        ]);
+
+        $quiz_mpc->save();
+
+        $question_1 = new Question([
+            "question" => "Apa yang dilakukan jika mengantuk?",
+            "question_type" => QuestionTypeConst::MULTIPLE_CHOICE,
+            "quiz_id" => $quiz_mpc->id
+        ]);
+        $question_1->save();
+
+        QuestionOption::insert([
+            [
+                "question_id" => $question_1->id,
+                "option" => "Makan",
+                "isTrue" => 0
+            ],
+            [
+                "question_id" => $question_1->id,
+                "option" => "Minum",
+                "isTrue" => 0
+            ],
+            [
+                "question_id" => $question_1->id,
+                "option" => "Begadang",
+                "isTrue" => 0
+            ],
+            [
+                "question_id" => $question_1->id,
+                "option" => "Tidur",
+                "isTrue" => 1
+            ],
+        ]);
     }
 }

@@ -57,12 +57,19 @@ class LessonController extends Controller
 
             $name = $request->name;
             $classroom_id = $request->classroom_id;
+
+            $due_date = $request->due_date;
+            $duration = $request->duration;
+
             $quiz_id = $request->quiz_id;
             $task_id = $request->task_id;
+            
             $video_url = $request->video_url ?? null;
             $new_lesson = new Lesson([
                 "name" => $name,
                 "classroom_id" => $classroom_id,
+                "due_date" => $due_date,
+                "duration" => $duration,
                 "quiz_id" => $quiz_id,
                 "task_id" => $task_id,
                 "video_url" => $video_url,
@@ -129,10 +136,14 @@ class LessonController extends Controller
             $classroom_id = $request->classroom_id;
             $quiz_id = $request->quiz_id;
             $task_id = $request->task_id;
+            $due_date = $request->due_date;
+            $duration = $request->duration;
             $video_url = $request->video_url ?? null;
             $lesson->update([
                 "name" => $name,
                 "classroom_id" => $classroom_id,
+                "due_date" => $due_date,
+                "duration" => $duration,
                 "quiz_id" => $quiz_id,
                 "task_id" => $task_id,
                 "video_url" => $video_url,

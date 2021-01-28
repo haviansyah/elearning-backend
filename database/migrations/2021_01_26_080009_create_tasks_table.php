@@ -17,8 +17,6 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("description");
-            $table->dateTime("due_date");
-            $table->integer("duration");
             $table->foreignIdFor(\App\Models\User::class,"created_by_user_id");
             $table->timestamps();
         });

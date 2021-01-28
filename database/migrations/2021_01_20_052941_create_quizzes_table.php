@@ -17,8 +17,6 @@ class CreateQuizzesTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("description");
-            $table->dateTime("due_date");
-            $table->integer("duration");
             $table->integer("random_question");
             $table->string("question_type");
             $table->timestamps();
