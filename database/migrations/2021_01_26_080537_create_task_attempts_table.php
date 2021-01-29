@@ -18,6 +18,7 @@ class CreateTaskAttemptsTable extends Migration
             $table->foreignIdFor(\App\Models\Task::class);
             $table->foreignIdFor(\App\Models\User::class);
             $table->string("answer");
+            $table->integer("poin")->nullable();
             $table->dateTime("start_at");
             $table->dateTime("finished_at");
             $table->timestamps();

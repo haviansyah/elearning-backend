@@ -46,11 +46,10 @@ class ClassroomController extends Controller
     }
 
     public function getOnly($id){
-        $classroom = Classroom::with(["lessons"])->findOrFail($id);
+        $classroom = Classroom::with(["lessons","teacher","students"])->findOrFail($id);
         return response($classroom,200);
     }
 
-    
 
     public function delete($id){
         $classroom = Classroom::findOrFail($id);

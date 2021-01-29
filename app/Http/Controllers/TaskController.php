@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskAttempt;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use RoleConst;
@@ -45,7 +46,12 @@ class TaskController extends Controller
 
             if($role == RoleConst::TEACHER){
                 return $user->created_task;
+            }else{
+                $user = User::with(["classroom","classroom.lessons","classroom.lessons.task"])->findOrFail($user->id);
+            
+                return $user->classroom->pluck("lessons")->flatten(1)->pluck("task");
             }
+            
 
         }catch(Exception $e){
             // return $e;
@@ -128,6 +134,18 @@ class TaskController extends Controller
             return $attempt;
         }catch(Exception $e){
             return $e;
+        }
+    }
+
+    public function insert_poin(Request $request, $id){
+        try{
+            $attempt = \App\Models\TaskAttempt::findOrFail($id);
+            $poin = $request->poin;
+            $attempt->poin = $poin;
+            $attempt->save();
+            return response(["status"=>"OK"],200);
+        }catch(Exception $e){
+            return response(["status"=>"invalid input"],400);
         }
     }
 }

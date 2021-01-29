@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Http\Controllers\ClassroomController;
 use App\Models\Classroom;
+use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\QuestionOption;
 use App\Models\Quiz;
 use App\Models\Role;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -118,5 +120,22 @@ class DatabaseSeeder extends Seeder
                 "isTrue" => 1
             ],
         ]);
+
+        $task = new Task([
+            "name" => "Tugas 1",
+            "description" => "Ini Tugas 1",
+            "created_by_user_id" => $guru_haviansyah->id,
+        ]);
+        $task->save();
+
+        $lesson = new Lesson([
+            "name" => "Lesson Minggu 1",
+            "classroom_id" => $kelas_4ka21->id,
+            "quiz_id" => $quiz_mpc->id,
+            "task_id" => $task->id,
+            "due_date" => "2021-02-23 09-12-23",
+            "duration" => 12
+        ]);
+        $lesson->save();
     }
 }
