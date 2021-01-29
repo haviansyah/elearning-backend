@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\Quiz;
 use App\Http\Controllers\TaskController;
@@ -52,6 +55,7 @@ Route::group(['prefix' => 'quiz',"middleware" => "jwtAuth"], function () {
     Route::get('/{id}/attempt',[Quiz::class,"get_attempt"]);
 
     Route::get('/attempt/{id}',[Quiz::class,"get_detail_attempt"]);
+    Route::post('/attempt/{id}',[Quiz::class,"insert_poin"]);
 
     Route::get('/calculate/{id}',[Quiz::class,"calculate_poin_multiple_choice"]);
     Route::get('/calculate2/{id}',[Quiz::class,"calculate_poin_match_pair"]);
@@ -65,6 +69,7 @@ Route::group(['prefix' => 'lesson',"middleware" => "jwtAuth"], function () {
 });
 
 
+
 Route::group(['prefix' => 'task',"middleware" => "jwtAuth"], function () {
     Route::post("/",[TaskController::class,"store"]);
     Route::get("/",[TaskController::class,"index"]);
@@ -74,10 +79,17 @@ Route::group(['prefix' => 'task',"middleware" => "jwtAuth"], function () {
     Route::post("/{id}/attempt",[TaskController::class,"new_attempt"]);
     Route::get("/{id}/attempt",[TaskController::class,"show_attempt"]);
     Route::get("/attempt/{id}",[TaskController::class,"detail_attempt"]);
+    Route::post("/attempt/{id}",[TaskController::class,"insert_poin"]);
+});
+
+Route::group(['prefix' => 'calendar',"middleware" => "jwtAuth"], function () {
+    Route::get("/",[CalendarController::class,"get_event_by_classroom"]);
 });
 
 
-
+Route::group(['prefix' => 'grade',"middleware" => "jwtAuth"], function () {
+    Route::get("/{id}",[GradeController::class,"get_grade_by_classroom"]);
+});
 
 Route::group([
     'middleware' => 'api',
@@ -93,3 +105,11 @@ Route::group([
     });
 
 }); 
+
+
+Route::get("/test",function(){
+    $attempt = \App\Models\QuizAttempt::all()->last();
+    return $attempt->Poin;
+});
+
+Route::get("/dashboard",[DashboardController::class,"index"])->middleware(["jwtAuth"]);

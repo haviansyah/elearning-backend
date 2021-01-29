@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\QuestionOption;
 use App\Models\Quiz as ModelsQuiz;
 use App\Models\QuizAttempt;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use QuestionTypeConst;
@@ -24,6 +25,9 @@ class Quiz extends Controller
 
         if($role == RoleConst::TEACHER){
             return $user->created_quiz;
+        }else{
+            $user = User::with(["classroom","classroom.lessons","classroom.lessons.quiz"])->findOrFail($user->id);
+            return $user->classroom->pluck("lessons")->flatten(1)->pluck("quiz");
         }
     }
 
@@ -116,7 +120,6 @@ class Quiz extends Controller
             $user_id = $user->id;
             $start_at = $request->start_at;
             $finished_at = $request->finished_at;
-    
     
             $quiz = ModelsQuiz::findOrFail($quiz_id);
             $question_type = $quiz->question_type;
@@ -238,5 +241,20 @@ class Quiz extends Controller
     public function get_detail_attempt($id){
         $attempt = \App\Models\QuizAttempt::with(["answers"])->findOrFail($id);
         return $attempt;
+    }
+
+    public function insert_poin(Request $request, $id){
+        try{
+            \App\Models\QuizAttempt::with(["answers"])->findOrFail($id);
+            $answers = $request->all();
+            foreach($answers as $answer){
+                $answer_data = AttemptAnswer::findOrFail($answer["answer_id"]);
+                $answer_data->poin = $answer["poin"];
+                $answer_data->save();
+            }
+            return response(["status"=>"OK"],200);
+        }catch(Exception $e){
+            return response(["status"=>"invalid input"],400);
+        }
     }
 }

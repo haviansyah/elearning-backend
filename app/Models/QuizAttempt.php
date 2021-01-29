@@ -22,4 +22,14 @@ class QuizAttempt extends Model
     public function answers(){
         return $this->hasMany(\App\Models\AttemptAnswer::class);
     }
+
+    public function getPoinAttribute(){
+        $poin = $this->answers->sum("poin");
+        $max_poin = $this->quiz->questions->count();
+        return [
+            "max_poin" => $max_poin,
+            "poin" => $poin,
+            "percentage" => $poin/$max_poin*100
+        ];
+    }
 }
