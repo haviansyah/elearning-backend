@@ -3,7 +3,7 @@
 Elearning Backend is a backend system made using Laravel 8
 
 ## Installation
-### Install Dependency
+#### Install Dependency
 
 Use the package manager [composer](https://getcomposer.org/) to install e-learning backend.
 
@@ -11,19 +11,29 @@ Use the package manager [composer](https://getcomposer.org/) to install e-learni
 composer install
 ```
 
-### Copy .env file
+#### Copy .env file
 ```bash
 php -r \"file_exists('.env') || copy('.env.example', '.env');\"
 ```
 
-### Generate Laravel Key
+#### Generate Laravel Key
 ```bash
 php artisan key:generate --ansi
 ```
 
-### Generate JWT Secret
+#### Generate JWT Secret
 ```bash
 php artisan jwt:secret
+```
+
+#### Migrate Database
+```bash
+php artisan migrate:fresh
+```
+
+#### Seed Database
+```bash
+php artisan db:seed
 ```
 
 ## Development Preview Mode
@@ -31,6 +41,8 @@ php artisan jwt:secret
 ```bash
 php artisan serve
 ```
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
